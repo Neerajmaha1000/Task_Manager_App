@@ -4,7 +4,7 @@ const router = express.Router();
 const taskController = require('../controllers/taskController');
 
 router.route('/projects/add').post(taskController.addProject);
-router.route('/projects').post(taskController.getAllProjects);
+router.route('/projects').get(taskController.getAllProjects);
 
 // router.route('/add').post(taskController.addTask);
 // router.route('/tasks').get(taskController.getAllTasks);

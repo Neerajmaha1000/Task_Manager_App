@@ -31,11 +31,12 @@ const TaskManager = () => {
 					<TaskList />
 				</div>
 			</div>
-			{/* <div>
+			<div>
 				<ListProject />
-			</div> */}
+			</div>
 		</div>
 	);
 };
 
 export default TaskManager;
+ 

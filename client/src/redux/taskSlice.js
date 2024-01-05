@@ -46,8 +46,14 @@ export const taskSlice = createSlice({
     addProjectSuccess: (state, action) => {
       state.Project = action.payload;
     },
+    projectsAddFailure: (state) => {
+      return state;
+    },
     getProjectsSuccess: (state, action) => {
       state.Projects = action.payload;
+    },
+    getAllProjectsFailure: (state) => {
+      return state;
     },
   },
 });
@@ -61,7 +67,9 @@ export const {
   deletefail,
   editTaskSuccess,
   addProjectSuccess,
+  projectsAddFailure,
   getProjectsSuccess,
+  getAllProjectsFailure,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;
@@ -75,22 +83,36 @@ export const addProject = (name) => async (dispatch) => {
   if (response) {
     dispatch(addProjectSuccess(response.data));
     toast.success("Project added successfully");
+    window.location.reload();
   } else {
-    dispatch(taskAddFailure()); // Use a generic failure action for now
+    dispatch(projectsAddFailure()); 
   }
 };
 
 export const getProjects = () => async (dispatch) => {
   try {
+    console.log('reach?', '1');
     const response = await axios.get("http://localhost:4000/task/projects");
     if (response) {
       dispatch(getProjectsSuccess(response.data));
-      console.log('projectList', response)
+      console.log('projectList', response.data);
     }
   } catch (error) {
     console.error("Error fetching projects:", error);
   }
 };
+
+// export const getProjectsForDropdown = () => async (dispatch) => {
+//   try {
+//     const response = await axios.get("http://localhost:4000/task/projects");
+//     if (response) {
+//       dispatch(getProjectsSuccess(response.data));
+//       console.log('projectList', response.data);
+//     }
+//   } catch (error) {
+//     console.error("Error fetching projects:", error);
+//   }
+// };
 
 export const addTask = (task, assingedTo, id) => async (dispatch) => {
   const taskData = {
@@ -122,7 +144,7 @@ export const getAllTasks = (token, id, projectId) => async (dispatch) => {
 
   try {
     const response = await axios.get(
-      `http://localhost:4000/task//tasks/${projectId}`,
+      `http://localhost:4000/task/tasks/${projectId}`,
       config
     );
 

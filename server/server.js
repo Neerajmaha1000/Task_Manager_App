@@ -11,6 +11,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/task', taskRouter);
+app.use((req, res, next) => {
+	res.setHeader('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+	next();
+  });
 
 
 const port = 4000;

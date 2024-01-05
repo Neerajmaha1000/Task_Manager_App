@@ -20,6 +20,7 @@ const getAllProjects = async (req, res) => {
   const { id } = req.query;
   try {
     const projects = await Task.find({ cretedBy: id });
+    console.log('data', projects)
     return res.status(200).send(projects);
   } catch (error) {
     return res.status(400).send(error);
