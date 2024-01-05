@@ -3,7 +3,6 @@ import Signin from './components/registration/Signin';
 import Signup from './components/registration/Signup';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-//import './styles/main.scss';
 import Home from './pages/home/Home';
 import TaskManager from './pages/taskmanagement/TaskManager';
 import Dashboard from './pages/dashboard/Dashboard';

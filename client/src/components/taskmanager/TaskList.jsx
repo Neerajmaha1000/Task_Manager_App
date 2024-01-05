@@ -1,7 +1,20 @@
-import { BiChevronLeft, BiChevronRight, BiTrash } from 'react-icons/bi';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllTasks } from '../../redux/taskSlice';
+import ListCard from './ListCard';
 
-const TaskList = (items) => {
-	
+const TaskList = () => {
+	const auth = useSelector((state) => state.auth);
+	const tasks = useSelector((state) => state.task);
+
+	const { currentUser } = auth;
+	const { AllTasks } = tasks;
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getAllTasks(currentUser.token, currentUser.id));
+	}, [dispatch, currentUser.token, currentUser.id]);
 
 	return (
 		<div className="bg-white rounded-lg shadow-md p-4">
@@ -15,33 +28,9 @@ const TaskList = (items) => {
 					</tr>
 				</thead>
 				<tbody>
-					<td className="py-3 px-6 text-left">6595534385D35A5ED8422D4F</td>
-					<td className="py-3 px-6 text-left">Task Number 1</td>
-					<td className="py-3 px-6 text-left">Backlog</td>
-					<td className="py-3 px-6 text-center">
-						<button
-							type="button"
-							disabled={items === 'backlog'}
-							onClick={() => ('left')}
-							className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-						>
-							<BiChevronLeft />
-						</button>
-						<button
-							type="button"
-							disabled={items === 'done'}
-							onClick={() => ('right')}
-							className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-						>
-							<BiChevronRight />
-						</button>
-						<button
-							onClick={''}
-							className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-						>
-							<BiTrash />
-						</button>
-					</td>
+					{Object.values(AllTasks).map((item) => (
+						<ListCard key={item._id} item={item} />
+					))}
 				</tbody>
 			</table>
 		</div>

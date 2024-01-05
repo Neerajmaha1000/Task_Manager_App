@@ -1,47 +1,56 @@
 import { BiChevronLeft, BiChevronRight, BiTrash } from 'react-icons/bi';
-
+import { arrowClick, deleteItem } from '../../redux/taskSlice';
+import { useDispatch } from 'react-redux';
 
 const ListCard = (items) => {
-	
+	const { item } = items;
+
+	const dispatch = useDispatch();
+
+	const ArrowClick = (string) => {
+		dispatch(arrowClick(item, string));
+	};
+	const handleDelete = () => {
+		dispatch(deleteItem(item._id));
+	};
 
 	return (
-			<tr className={`bg-white hover:bg-gray-100 ${ items === 'done' ? 'text-green-500' : ''
+			<tr className={`bg-white hover:bg-gray-100 ${ item.status === 'done' ? 'text-green-500' : ''
 				}`}>
 				<td className="py-4 px-6 text-left font-medium whitespace-nowrap">
-					6595534385D35A5ED8422D4F
+					{item._id}
 				</td>
 				<td className="py-4 px-6 text-left">
-					Task Number 1
+					{item.task}
 				</td>
 				<td className="py-4 px-6 text-left">
-					Backlog
+					{item.status}
 				</td>
 				<td className="py-4 px-6 text-center">
 					<button
 						type="button"
-						disabled={items === 'backlog'}
-						onClick={() => ('left')}
+						disabled={item.status === 'backlog'}
+						onClick={() => ArrowClick('left')}
 						className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 					>
 						<BiChevronLeft />
 					</button>
 					<button
 						type="button"
-						disabled={items === 'done'}
-						onClick={() => ('right')}
+						disabled={item.status === 'done'}
+						onClick={() => ArrowClick('right')}
 						className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 					>
 						<BiChevronRight />
 					</button>
 					<button
-						onClick={''}
+						onClick={handleDelete}
 						className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 					>
 						<BiTrash />
 					</button>
 				</td>
 			</tr>
-
 	);
 };
 
