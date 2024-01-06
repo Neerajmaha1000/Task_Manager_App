@@ -76,7 +76,6 @@ export default taskSlice.reducer;
 
 // actions for projects
 export const addProject = (name) => async (dispatch) => { 
-  console.log('test', name);
   const response = await axios.post("http://localhost:4000/task/projects/add", {
     name,
   });
@@ -95,7 +94,6 @@ export const getProjects = () => async (dispatch) => {
     const response = await axios.get("http://localhost:4000/task/projects");
     if (response) {
       dispatch(getProjectsSuccess(response.data));
-      console.log('projectList', response.data);
     }
   } catch (error) {
     console.error("Error fetching projects:", error);
@@ -132,23 +130,25 @@ export const addTask = (task, assingedTo, id) => async (dispatch) => {
   }
 };
 
-export const getAllTasks = (token, id, projectId) => async (dispatch) => {
+export const getAllTasks = (token, id, projID) => async (dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
     params: {
-      id,
+      projID,
     },
   };
-
+  console.log('id', id);
+  console.log('proj Name', projID);
   try {
     const response = await axios.get(
-      `http://localhost:4000/task/tasks/${projectId}`,
+      `http://localhost:4000/task/tasks/${projID}`,
       config
     );
 
     if (response) {
+      console.log('taskData', response.data);
       dispatch(getAllTaskSuccess(response.data));
     }
   } catch (error) {
@@ -158,16 +158,17 @@ export const getAllTasks = (token, id, projectId) => async (dispatch) => {
   }
 };
 
-export const arrowClick = (item, string) => async () => {
+export const arrowClick = (item, projId, string) => async () => {
   let taskData = {
     id: item._id,
-    status: item.status,
+    //status: item.status,
+    projId,
     string,
   };
 
   try {
     let response = await axios.put(
-      `http://localhost:4000/task/${taskData.id}`,
+      `http://localhost:4000/task/tasks/${projId}/${taskData.id}/status`,
       taskData
     );
 

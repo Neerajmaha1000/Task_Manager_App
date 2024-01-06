@@ -3,7 +3,7 @@ const Task = require("../../database/model/task.model");
 
 const addProject = async (req, res) => {
   const { name } = req.body;
-  
+
   try {
     if (!name) return res.status(400).send("Please enter the project name");
 
@@ -15,19 +15,16 @@ const addProject = async (req, res) => {
   }
 };
 
-
 const getAllProjects = async (req, res) => {
   const { id } = req.query;
   try {
     const projects = await Task.find({ cretedBy: id });
-    console.log('data', projects)
+    //console.log('data', projects)
     return res.status(200).send(projects);
   } catch (error) {
     return res.status(400).send(error);
   }
 };
-
-
 
 const addTask = async (req, res) => {
   const { task, projectId, assignedTo } = req.body;
@@ -55,19 +52,20 @@ const addTask = async (req, res) => {
 };
 
 // Updated getAllTasks function to retrieve tasks for a given project
-//   const getAllTasks = async (req, res) => {
-// 	const { projectId } = req.query;
-
-// 	try {
-// 	  const project = await Project.findById(projectId);
-// 	  if (!project) return res.status(400).send('Project not found');
-
-// 	  const taskList = project.tasks;
-// 	  return res.status(200).send(taskList);
-// 	} catch (error) {
-// 	  return res.status(400).send(error);
-// 	}
-//   };
+const getAllTasks = async (req, res) => {
+  const { projID } = req.query;
+  console.log("req query", req.query);
+  try {
+    const project = await Task.findById({ _id: projID });
+    if (!project) return res.status(400).send("Project not found");
+    //console.log('project', project);
+    //return res.send(project);
+    const taskList = project.tasks;
+    return res.status(200).send(taskList);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};
 
 // const addTask = async (req, res) => {
 // 	const { task, id } = req.body;
@@ -86,54 +84,110 @@ const addTask = async (req, res) => {
 // 	}
 // };
 
-const getAllTasks = async (req, res) => {
-  const { id } = req.query;
-  try {
-    let tasklist = await Task.find({ cretedBy: id });
-    return res.status(200).send(tasklist);
-  } catch (error) {
-    return res.status(400).send(error);
-  }
-};
+// const getAllTasks = async (req, res) => {
+//   const { id } = req.query;
+//   try {
+//     let tasklist = await Task.find({ cretedBy: id });
+//     return res.status(200).send(tasklist);
+//   } catch (error) {
+//     return res.status(400).send(error);
+//   }
+// };
 
 const editTask = async (req, res) => {};
 
-const statusChange = async (req, res) => {
-  const { id, string } = req.body;
+// const statusChange = async (req, res) => {
+//   console.log('neeraj', req.body);
+//   const { id, projID, string } = req.body;
+
+//   try {
+//     let task = await Task.findById({ _id: id });
+//     console.log('taskOutput', task);
+//     if (string === "right") {
+//       if (task.status === "backlog") {
+//         task.status = "todo";
+//         task.save();
+//         return res.send(task);
+//       } else if (task.status === "todo") {
+//         task.status = "doing";
+//         task.save();
+//         return res.send(task);
+//       } else if (task.status === "doing") {
+//         task.status = "done";
+//         task.save();
+//         return res.send(task);
+//       }
+//     } else {
+//       if (task.status === "done") {
+//         task.status = "doing";
+//         task.save();
+//         return res.send(task);
+//       } else if (task.status === "doing") {
+//         task.status = "todo";
+//         task.save();
+//         return res.send(task);
+//       } else if (task.status === "todo") {
+//         task.status = "backlog";
+//         task.save();
+//         return res.send(task);
+//       }
+//     }
+//   } catch (error) {}
+// };
+
+ const statusChange = async (req, res) => {
+  console.log("neeraj", req.body);
+  const { id, projId, string } = req.body;
 
   try {
-    let task = await Task.findById({ _id: id });
-    if (string === "right") {
-      if (task.status === "backlog") {
-        task.status = "todo";
-        task.save();
-        return res.send(task);
-      } else if (task.status === "todo") {
-        task.status = "doing";
-        task.save();
-        return res.send(task);
-      } else if (task.status === "doing") {
-        task.status = "done";
-        task.save();
-        return res.send(task);
+    if (!projId) {
+      return res.status(400).send('Missing projectId in request');
+    }
+
+    let task = await Task.findByIdAndUpdate(
+      { _id: id, projectId: projId},
+      { $set: { status: getUpdatedStatus(task.status, string) } },
+      { new: true } 
+    );
+    console.log("taskOutput", task);
+
+    if (!task) {
+      return res.status(404).send('Task not found');
+    }
+
+    return res.send(task);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+  
+  function getUpdatedStatus(currentStatus, direction) {
+    if (direction === "right") {
+      switch (currentStatus) {
+        case "backlog":
+          return "todo";
+        case "todo":
+          return "doing";
+        case "doing":
+          return "done";
+        default:
+          return currentStatus;
       }
     } else {
-      if (task.status === "done") {
-        task.status = "doing";
-        task.save();
-        return res.send(task);
-      } else if (task.status === "doing") {
-        task.status = "todo";
-        task.save();
-        return res.send(task);
-      } else if (task.status === "todo") {
-        task.status = "backlog";
-        task.save();
-        return res.send(task);
+      switch (currentStatus) {
+        case "done":
+          return "doing";
+        case "doing":
+          return "todo";
+        case "todo":
+          return "backlog";
+        default:
+          return currentStatus;
       }
     }
-  } catch (error) {}
+  }
 };
+
+
 
 const deleteTask = async (req, res) => {
   const { id } = req.params;

@@ -5,6 +5,7 @@ import AddProject from '../../components/taskmanager/AddProject';
 import AssignTask from '../../components/taskmanager/AssignTask';
 
 import ListProject from '../../components/taskmanager/ListProject';
+//import ListCard from '../../components/taskmanager/ListCard';
 
 const TaskManager = () => {
 	return (
@@ -29,11 +30,12 @@ const TaskManager = () => {
 				</div>
 				<div className="bg-white rounded-lg mb-5 col-span-1">
 					<TaskList />
+					{/* <ListCard /> */}
 				</div>
 			</div>
-			<div>
+			{/* <div>
 				<ListProject />
-			</div>
+			</div> */}
 		</div>
 	);
 };

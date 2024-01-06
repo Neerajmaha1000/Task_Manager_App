@@ -76,7 +76,7 @@ const AddTask = () => {
 						/>
 					</div>
 					<div className="mb-4">
-						<label htmlFor="task" className="block text-gray-700 font-bold mb-2">project To</label>
+						<label htmlFor="task" className="block text-gray-700 font-bold mb-2">task to project</label>
 						{ Projects && Projects.length > 0 ? (
 						<select onChange={handleChange2} name='assignedTo' value={state.projectAssinged} className="px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
 							{Projects.map((emp) => {
