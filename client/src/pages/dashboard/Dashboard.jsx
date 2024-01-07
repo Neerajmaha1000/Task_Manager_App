@@ -1,36 +1,51 @@
 import Sidebar from '../../components/sidebar/Sidebar';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { getAllTasks } from '../../redux/taskSlice';
+import { useEffect, useState } from 'react';
+import { getProjects } from '../../redux/taskSlice';
 
 
 const Dashboard = () => {
-	const tasklist = useSelector((state) => state.task);
-	const { AllTasks } = tasklist;
-	const user = useSelector((state) => state.auth);
-	const { currentUser } = user;
+	const Projects = useSelector((state) => state.task.Projects);
 
-	let pendingTask = [];
-	let completedTask = [];
-	let backlogTask = [];
-	let doingTask = [];
-	for (let i = 0; i < AllTasks.length; i++) {
-		if (AllTasks[i].status === 'todo') {
-			pendingTask.push(AllTasks[i]);
-		} else if (AllTasks[i].status === 'done') {
-			completedTask.push(AllTasks[i]);
-		} else if (AllTasks[i].status === 'backlog') {
-			backlogTask.push(AllTasks[i]);
-		} else if (AllTasks[i].status === 'doing') {
-			doingTask.push(AllTasks[i]);
-		}
-	}
+	const [statusCounts, setStatusCounts] = useState({
+		backlog: 0,
+		todo: 0,
+		doing: 0,
+		done: 0,
+	});
 
+	console.log('alltasks', Projects);
 	const dispatch = useDispatch();
+
+	const countStatuses = (Projects) => {
+		const counts = {
+			backlog: 0,
+			todo: 0,
+			doing: 0,
+			done: 0,
+		};
+		if (Array.isArray(Projects)) {
+			Projects?.forEach((project) => {
+				project.tasks.forEach((task) => {
+					counts[task.status]++;
+				});
+			});
+		}
+		setStatusCounts(counts);
+	};
+
 	useEffect(() => {
-		dispatch(getAllTasks(currentUser.token, currentUser.id));
-	}, [dispatch, currentUser.token, currentUser.id]);
+		dispatch(getProjects())
+			.catch((error) => {
+				console.error('Failed to fetch projects:', error);
+			});
+		//countStatuses(Projects);
+	}, [dispatch]);
+
+	useEffect(() => {
+		countStatuses(Projects);
+	}, [Projects]);
 
 	return (
 		<div className="container mx-auto p-4 flex">
@@ -39,27 +54,33 @@ const Dashboard = () => {
 			</div>
 			<div className="w-3/4 p-4">
 				<h2 className="text-2xl font-bold mb-6">SmartDings Dashboard</h2>
-				<div className="grid grid-cols-2 gap-4">
-					<div className="bg-blue-100 rounded-lg shadow-md p-4">
-						<h3 className="text-lg font-semibold mb-2">Backlog</h3>
-						<p className="text-xl font-bold">{backlogTask.length}</p>
+
+				{Array.isArray(Projects) && Projects.length > 0 ? (
+					<div className="grid grid-cols-2 gap-4">
+						<div className="bg-blue-100 rounded-lg shadow-md p-4">
+							<h3 className="text-lg font-semibold mb-2">Backlog</h3>
+							<p className="text-xl font-bold">{statusCounts.backlog}</p>
+						</div>
+						<div className="bg-pink-100 rounded-lg shadow-md p-4">
+							<h3 className="text-lg font-semibold mb-2">Todo</h3>
+							<p className="text-xl font-bold">{statusCounts.todo}</p>
+						</div>
+						<div className="bg-orange-100 rounded-lg shadow-md p-4">
+							<h3 className="text-lg font-semibold mb-2">InProgress</h3>
+							<p className="text-xl font-bold">{statusCounts.doing}</p>
+						</div>
+						<div className="bg-green-100 rounded-lg shadow-md p-4">
+							<h3 className="text-lg font-semibold mb-2">Complete</h3>
+							<p className="text-xl font-bold">{statusCounts.done}</p>
+						</div>
 					</div>
-					<div className="bg-pink-100 rounded-lg shadow-md p-4">
-						<h3 className="text-lg font-semibold mb-2">Todo</h3>
-						<p className="text-xl font-bold">{pendingTask.length}</p>
-					</div>
-					<div className="bg-orange-100 rounded-lg shadow-md p-4">
-						<h3 className="text-lg font-semibold mb-2">InProgress</h3>
-						<p className="text-xl font-bold">{doingTask.length}</p>
-					</div>
-					<div className="bg-green-100 rounded-lg shadow-md p-4">
-						<h3 className="text-lg font-semibold mb-2">Complete</h3>
-						<p className="text-xl font-bold">{completedTask.length}</p>
-					</div>
-				</div>
+				) : (
+					<p>Loading projects...</p>
+				)}
+
 				<div className="mt-4">
 					<Link to="/taskmanager" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-						Create Task
+						Create Project or Task
 					</Link>
 				</div>
 			</div>

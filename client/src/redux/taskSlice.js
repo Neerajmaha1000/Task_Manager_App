@@ -6,8 +6,9 @@ const initalTask = localStorage.getItem("task")
   ? JSON.parse(localStorage.getItem("task"))
   : null;
 
-
-const initialProject = localStorage.getItem("project") ? JSON.parse(localStorage.getItem("project")) : null  
+const initialProject = localStorage.getItem("project")
+  ? JSON.parse(localStorage.getItem("project"))
+  : null;
 
 const initialState = {
   TaskData: initalTask,
@@ -75,22 +76,22 @@ export const {
 export default taskSlice.reducer;
 
 // actions for projects
-export const addProject = (name) => async (dispatch) => { 
+export const addProject = (name) => async (dispatch) => {
   const response = await axios.post("http://localhost:4000/task/projects/add", {
     name,
   });
   if (response) {
     dispatch(addProjectSuccess(response.data));
-    toast.success("Project added successfully");
     window.location.reload();
+    toast.success("Project added successfully");
   } else {
-    dispatch(projectsAddFailure()); 
+    dispatch(projectsAddFailure());
   }
 };
 
 export const getProjects = () => async (dispatch) => {
   try {
-    console.log('reach?', '1');
+    console.log("reach?", "1");
     const response = await axios.get("http://localhost:4000/task/projects");
     if (response) {
       dispatch(getProjectsSuccess(response.data));
@@ -100,35 +101,35 @@ export const getProjects = () => async (dispatch) => {
   }
 };
 
-// export const getProjectsForDropdown = () => async (dispatch) => {
-//   try {
-//     const response = await axios.get("http://localhost:4000/task/projects");
-//     if (response) {
-//       dispatch(getProjectsSuccess(response.data));
-//       console.log('projectList', response.data);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching projects:", error);
-//   }
-// };
+export const addTask =
+  (task, assingedTo, projectId, userId) => async (dispatch) => {
+    const taskData = {
+      task,
+      assingedTo,
+      projectId,
+      userId,
+    };
+    console.log("neeraj", taskData);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/task/tasks",
+        taskData
+      );
+      if (response) {
+        //localStorage.setItem("task", JSON.stringify(response.data));
 
-export const addTask = (task, assingedTo, id) => async (dispatch) => {
-  const taskData = {
-    task,
-    assingedTo,
-    id,
+        dispatch(taskAddedSuccessfully(response.data));
+        toast.success("task added successfully");
+        //window.location.reload();
+      } else {
+        dispatch(taskAddFailure());
+      }
+    } catch (error) {
+      console.error(error); // Log errors for debugging
+      dispatch(taskAddFailure());
+      toast.error("An error occurred adding the task"); // Handle network errors
+    }
   };
-  const response = await axios.post("http://localhost:4000/task/tasks", taskData);
-  if (response) {
-    localStorage.setItem("task", JSON.stringify(response.data));
-
-    dispatch(taskAddedSuccessfully(response.data));
-    toast.success("task added successfully");
-    window.location.reload();
-  } else {
-    dispatch(taskAddFailure());
-  }
-};
 
 export const getAllTasks = (token, id, projID) => async (dispatch) => {
   const config = {
@@ -139,8 +140,8 @@ export const getAllTasks = (token, id, projID) => async (dispatch) => {
       projID,
     },
   };
-  console.log('id', id);
-  console.log('proj Name', projID);
+  console.log("id", id);
+  console.log("proj Name", projID);
   try {
     const response = await axios.get(
       `http://localhost:4000/task/tasks/${projID}`,
@@ -148,7 +149,7 @@ export const getAllTasks = (token, id, projID) => async (dispatch) => {
     );
 
     if (response) {
-      console.log('taskData', response.data);
+      console.log("taskData", response.data);
       dispatch(getAllTaskSuccess(response.data));
     }
   } catch (error) {
@@ -158,22 +159,24 @@ export const getAllTasks = (token, id, projID) => async (dispatch) => {
   }
 };
 
-export const arrowClick = (item, projId, string) => async () => {
+export const arrowClick = (item, projId, taskindex, string) => async () => {
   let taskData = {
-    id: item._id,
-    //status: item.status,
+    task: item.task,
+    status: item.status,
     projId,
+    taskindex,
     string,
   };
-
+  console.log("taskslice Arrow", taskData);
   try {
     let response = await axios.put(
-      `http://localhost:4000/task/tasks/${projId}/${taskData.id}/status`,
+      `http://localhost:4000/task/tasks/${projId}/${taskindex}/status`,
       taskData
     );
 
     if (response) {
-      window.location.reload();
+      //window.location.reload();
+      console.log("res", response);
     }
   } catch (error) {
     console.log(error);

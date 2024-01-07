@@ -30,7 +30,7 @@ const AddProject = () => {
       <div className="p-3 bg-white rounded-lg shadow-md">
               <form onSubmit={handleSubmit}>
                   <div className="mb-4">
-                      <label htmlFor="project" className="block text-gray-700 font-bold mb-2">Add Project</label>
+                      <label htmlFor="project" className="block text-gray-700 font-bold mb-2">Create New Project</label>
                       <input
                           type="text"
                           id="project"
@@ -41,7 +41,7 @@ const AddProject = () => {
                       />
                   </div>
                   <button type="submit" className="bg-blue-500 hover:bg-blue-900 text-sm text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline">
-                      Add Project
+                      Create Project
                   </button>
               </form>
           </div>

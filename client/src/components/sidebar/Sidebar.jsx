@@ -18,12 +18,12 @@ const Sidebar = () => {
 					</Link>
 				</li>
 				<li>
-					<Link to="/dashboard" className="block py-1 px-4 hover:bg-gray-400 bg-gray-200 rounded-md font-semibold">
-						Filter by Employee
+					<Link to="/filterbyuser" className="block py-1 px-4 hover:bg-gray-400 bg-gray-200 rounded-md font-semibold">
+						Filter by User
 					</Link>
 				</li>
 				<li>
-					<Link to="/dashboard" className="block py-1 px-4 hover:bg-gray-400 bg-gray-200 rounded-md font-semibold">
+					<Link to="/filterbyproj" className="block py-1 px-4 hover:bg-gray-400 bg-gray-200 rounded-md font-semibold">
 						Filter by Project
 					</Link>
 				</li>

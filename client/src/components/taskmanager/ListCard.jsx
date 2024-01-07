@@ -3,14 +3,15 @@ import { arrowClick, deleteItem } from '../../redux/taskSlice';
 import { useDispatch } from 'react-redux';
 
 const ListCard = (items) => {
-	const { item, projId } = items;
+	const { item, projId, index, onValueChange } = items;
 	//const { projId } = projectId
 
 	const dispatch = useDispatch();
 	console.log('projId', projId);
 	
 	const ArrowClick = (string) => {
-		dispatch(arrowClick(item, projId, string));
+		dispatch(arrowClick(item, projId, index, string));
+		onValueChange('valueChanged');
 	};
 	const handleDelete = () => {
 		dispatch(deleteItem(item._id));
@@ -19,9 +20,9 @@ const ListCard = (items) => {
 	return (
 		<tr className={`bg-white hover:bg-gray-100 ${item.status === 'done' ? 'text-green-500' : ''
 			}`}>
-			<td className="py-4 px-6 text-left font-medium whitespace-nowrap">
+			{/* <td className="py-4 px-6 text-left font-medium whitespace-nowrap">
 				{item._id}
-			</td>
+			</td> */}
 			<td className="py-4 px-6 text-left">
 				{item.task}
 			</td>

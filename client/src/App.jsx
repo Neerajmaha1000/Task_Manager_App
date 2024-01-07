@@ -2,17 +2,22 @@ import Header from './components/header/Header';
 import Signin from './components/registration/Signin';
 import Signup from './components/registration/Signup';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Home from './pages/home/Home';
 import TaskManager from './pages/taskmanagement/TaskManager';
 import Dashboard from './pages/dashboard/Dashboard';
 import RequireAuth from './utils/RequireAuth';
 import { useSelector } from 'react-redux';
+import FilterByProj from './pages/filterByProj/FilterByProj';
+import FilterByUser from './pages/filterByUser/FilterByUser';
 
 function App() {
 	const { auth } = useSelector((state) => ({ ...state }));
 	return (
 		<div>
+			{/* <ToastContainer /> */}
 			<Router>
 				<Header />
 				<Routes>
@@ -41,8 +46,25 @@ function App() {
 							</RequireAuth>
 						}
 					/>
+					<Route
+						path='/filterbyuser'
+						element={
+							<RequireAuth>
+								<FilterByUser />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path='/filterbyproj'
+						element={
+							<RequireAuth>
+								<FilterByProj />
+							</RequireAuth>
+						}
+					/>
 				</Routes>
 			</Router>
+			<ToastContainer />
 		</div>
 	);
 }

@@ -13,6 +13,7 @@ const TaskList = () => {
 
 	const dispatch = useDispatch();
 
+	//get projects
 	useEffect(() => {
 		dispatch(getProjects())
 			.catch((error) => {
@@ -20,6 +21,7 @@ const TaskList = () => {
 			});
 
 	}, [dispatch]);
+
 
 	useEffect(() => {
 		dispatch(getAllTasks(currentUser.token, currentUser.id));
@@ -34,6 +36,11 @@ const TaskList = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		dispatch(getAllTasks(currentUser.token, currentUser.id, state));
+	};
+
+	const handleChildChange = () => {
+		// Call API here
 		dispatch(getAllTasks(currentUser.token, currentUser.id, state));
 	};
 
@@ -54,7 +61,7 @@ const TaskList = () => {
 			<table className="w-full divide-y divide-gray-200">
 				<thead>
 					<tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-						<th className="py-3 px-6 text-left">ID</th>
+						{/* <th className="py-3 px-6 text-left">ID</th> */}
 						<th className="py-3 px-6 text-left">Task Name</th>
 						<th className="py-3 px-6 text-left">Assinged to</th>
 						<th className="py-3 px-6 text-left">Status</th>
@@ -64,8 +71,8 @@ const TaskList = () => {
 				{AllTasks ? (
 					< tbody >
 						{
-							Object.values(AllTasks).map((item) => (
-								<ListCard key={item._id} projId={state} item={item} />
+							Object.values(AllTasks).map((item, index) => (
+								<ListCard key={item._id} projId={state} index={index} item={item} onValueChange={handleChildChange} />
 							))
 						}
 					</tbody>

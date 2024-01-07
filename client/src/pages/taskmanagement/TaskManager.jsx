@@ -1,11 +1,7 @@
 import Sidebar from '../../components/sidebar/Sidebar';
 import AddTask from '../../components/taskmanager/AddTask';
-import TaskList from '../../components/taskmanager/TaskList';
+//import TaskList from '../../components/taskmanager/TaskList';
 import AddProject from '../../components/taskmanager/AddProject';
-import AssignTask from '../../components/taskmanager/AssignTask';
-
-import ListProject from '../../components/taskmanager/ListProject';
-//import ListCard from '../../components/taskmanager/ListCard';
 
 const TaskManager = () => {
 	return (
@@ -15,27 +11,18 @@ const TaskManager = () => {
 				<Sidebar />
 			</div>
 			<div className="w-3/4 p-4">
-				<div className="grid grid-cols-3 gap-4">
-
+				<div className="grid grid-cols-2 gap-4">
 					<div className="bg-white rounded-lg mb-5">
 						<AddProject />
 					</div>
 					<div className="bg-white rounded-lg mb-5">
 						<AddTask />
 					</div>
-
-					<div className="bg-white rounded-lg mb-5 ">
-						<AssignTask />
-					</div>
 				</div>
-				<div className="bg-white rounded-lg mb-5 col-span-1">
+				{/* <div className="bg-white rounded-lg mb-5 col-span-1">
 					<TaskList />
-					{/* <ListCard /> */}
-				</div>
+				</div> */}
 			</div>
-			{/* <div>
-				<ListProject />
-			</div> */}
 		</div>
 	);
 };

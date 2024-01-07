@@ -27,26 +27,36 @@ const getAllProjects = async (req, res) => {
 };
 
 const addTask = async (req, res) => {
-  const { task, projectId, assignedTo } = req.body;
-
+  const { task, assingedTo, projectId, userId } = req.body;
+  console.log('controller', req.body);
   try {
-    if (!task || !projectId || !assignedTo) {
+    if (!task || !projectId || !assingedTo) {
       return res.status(400).send("Please provide all required fields");
     }
 
     const project = await Task.findById(projectId);
     if (!project) return res.status(400).send("Project not found");
 
-    const taskDetail = await project.tasks.create({
+    console.log('projectdetail', project);
+    // const taskDetail = await project.tasks.create({
+    //   task,
+    //   status: "backlog",
+    //   assingedTo,
+    //   createdBy: userId, // Assuming you have access to the user
+    // });
+    const taskDetail = {
       task,
-      status: "backlog", // Set default status
-      assignedTo,
-      createdBy: req.user.id, // Assuming you have access to the user
-    });
+      status: "backlog",
+      assignedTo: assingedTo,
+      createdBy: userId, // Assuming you have access to the user
+    };
+    project.tasks.push(taskDetail);
+
 
     await project.save(); // Save updated project with new task
-    return res.status(200).send(taskDetail);
+    return res.status(200).send(project);
   } catch (error) {
+    console.log(error);
     return res.status(400).send("Task addition failed");
   }
 };
@@ -136,8 +146,8 @@ const editTask = async (req, res) => {};
 // };
 
  const statusChange = async (req, res) => {
-  console.log("neeraj", req.body);
-  const { id, projId, string } = req.body;
+  //console.log("neeraj", req.body);
+  const { status, projId, taskindex, string } = req.body;
 
   try {
     if (!projId) {
@@ -145,9 +155,12 @@ const editTask = async (req, res) => {};
     }
 
     let task = await Task.findByIdAndUpdate(
-      { _id: id, projectId: projId},
-      { $set: { status: getUpdatedStatus(task.status, string) } },
-      { new: true } 
+      { _id: projId},
+      { $set: { 'tasks.$[elem].status': getUpdatedStatus(req.body.status, string) } },
+      {
+        arrayFilters: [{ 'elem.task': req.body.task }], // Filter based on task description
+        new: true
+      } 
     );
     console.log("taskOutput", task);
 
@@ -155,7 +168,7 @@ const editTask = async (req, res) => {};
       return res.status(404).send('Task not found');
     }
 
-    return res.send(task);
+    return res.send(task.tasks[taskindex]);
   } catch (error) {
     res.status(400).send(error);
   }
