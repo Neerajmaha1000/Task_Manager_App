@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { addTask, getProjects } from '../../redux/taskSlice';
 import { useDispatch, useSelector } from 'react-redux';
-//import { toast } from "react-toastify";
 
 
 const AddTask = () => {
-	//const [projList, setProjList] = useState([]);
 	const auth = useSelector((state) => state.auth);
 	const Projects = useSelector((state) => state.task.Projects);
 	const { currentUser } = auth;
@@ -43,11 +41,9 @@ const AddTask = () => {
 		e.preventDefault();
 		dispatch(addTask(task, assignedTo, projectAssigned, currentUser.id))
 			.then(() => {
-				//toast.success("Task added successfully")
 			})
 			.catch((err) => {
 				console.error(err);
-				//toast.error("Task addition failed.");
 			})
 		console.log('dispatch', task, assignedTo, projectAssigned, currentUser.id);
 	};
@@ -64,7 +60,6 @@ const AddTask = () => {
 						id="task"
 						name="task"
 
-						//value={state.task}
 						onChange={handleChange}
 						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 					/>

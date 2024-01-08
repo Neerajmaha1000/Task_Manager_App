@@ -40,7 +40,6 @@ const Dashboard = () => {
 			.catch((error) => {
 				console.error('Failed to fetch projects:', error);
 			});
-		//countStatuses(Projects);
 	}, [dispatch]);
 
 	useEffect(() => {

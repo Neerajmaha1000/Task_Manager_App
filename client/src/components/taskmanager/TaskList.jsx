@@ -61,7 +61,6 @@ const TaskList = () => {
 			<table className="w-full divide-y divide-gray-200">
 				<thead>
 					<tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-						{/* <th className="py-3 px-6 text-left">ID</th> */}
 						<th className="py-3 px-6 text-left">Task Name</th>
 						<th className="py-3 px-6 text-left">Assinged to</th>
 						<th className="py-3 px-6 text-left">Status</th>

@@ -1,4 +1,5 @@
 import Sidebar from "../../components/sidebar/Sidebar"
+import ListTaskByUser from "../../components/taskmanager/ListTaskByUser"
 
 const FilterByUser = () => {
   return (
@@ -9,18 +10,14 @@ const FilterByUser = () => {
 			<div className="w-3/4 p-4">
 				<div className="grid grid-cols-1 gap-4">
 					<div className="bg-white rounded-lg mb-5">
-						Working on  Filter by Users
+						<ListTaskByUser />
 					</div>
-					{/* <div className="bg-white rounded-lg mb-5">
-						<AddTask />
-					</div> */}
+					
 				</div>
-				{/* <div className="bg-white rounded-lg mb-5 col-span-1">
-					<TaskList />
-				</div> */}
+				
 			</div>
 		</div>
   )
 }
 
-export default FilterByUser
+export default FilterByUser;

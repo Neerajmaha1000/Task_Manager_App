@@ -36,7 +36,6 @@ const Signup = () => {
 			<div className='bg-white rounded-lg shadow-md p-8'>
 			<h4 className="text-2xl font-bold mb-6 text-center">Sign Up</h4>
 				<form className='w-full' onSubmit={handleSubmit}>
-					{/* <h4>Sign up</h4> */}
 
 					<div className='mb-4'>
 					<label htmlFor="username" className="block text-gray-700 font-bold mb-2">Username</label>

@@ -6,10 +6,6 @@ const taskController = require('../controllers/taskController');
 router.route('/projects/add').post(taskController.addProject);
 router.route('/projects').get(taskController.getAllProjects);
 
-// router.route('/add').post(taskController.addTask);
-// router.route('/tasks').get(taskController.getAllTasks);
-// router.route('/edit/:id').put(taskController.editTask);
-
 router.route('/tasks').post(taskController.addTask);
 router.route('/tasks/:projectId').get(taskController.getAllTasks);
 router.route('/tasks/:projectId/:taskId').put(taskController.editTask);

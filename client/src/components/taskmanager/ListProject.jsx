@@ -4,7 +4,6 @@ import { getProjects } from '../../redux/taskSlice';
 
 const ListProject = () => {
 
-    // const auth = useSelector((state) => state.auth);
     const Projects = useSelector((state) => state.task.Projects);
 
     const dispatch = useDispatch();
@@ -36,9 +35,8 @@ const ListProject = () => {
                 <thead>
                     <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                         <th className="py-3 px-6 text-left">Project Name</th>
-                        {/* <th className="py-3 px-6 text-left">IIIssue Name</th>
-                        <th className="py-3 px-6 text-left">SStatus</th>
-                        <th className="py-3 px-6 text-center">Action</th> */}
+                        
+
                     </tr>
                 </thead>
                 {Projects && Projects.length > 0 ? (
@@ -53,7 +51,7 @@ const ListProject = () => {
                     <p>Loading projects...</p>
                 )}
             </table>
-            {/* <pre>{JSON.stringify(Projects, null, 2)}</pre> */}
+            
         </div>
     )
 }

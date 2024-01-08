@@ -1,6 +1,5 @@
 import Sidebar from '../../components/sidebar/Sidebar';
 import AddTask from '../../components/taskmanager/AddTask';
-//import TaskList from '../../components/taskmanager/TaskList';
 import AddProject from '../../components/taskmanager/AddProject';
 
 const TaskManager = () => {
@@ -19,9 +18,7 @@ const TaskManager = () => {
 						<AddTask />
 					</div>
 				</div>
-				{/* <div className="bg-white rounded-lg mb-5 col-span-1">
-					<TaskList />
-				</div> */}
+				
 			</div>
 		</div>
 	);

@@ -1,4 +1,3 @@
-//import React from 'react'
 import Sidebar from "../../components/sidebar/Sidebar"
 import TaskList from "../../components/taskmanager/TaskList"
 
@@ -13,13 +12,7 @@ const FilterByProj = () => {
 					<div className="bg-white rounded-lg mb-5">
 						<TaskList />
 					</div>
-					{/* <div className="bg-white rounded-lg mb-5">
-						<AddTask />
-					</div> */}
 				</div>
-				{/* <div className="bg-white rounded-lg mb-5 col-span-1">
-					<TaskList />
-				</div> */}
 			</div>
 		</div>
   )

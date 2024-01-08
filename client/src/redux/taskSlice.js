@@ -101,8 +101,7 @@ export const getProjects = () => async (dispatch) => {
   }
 };
 
-export const addTask =
-  (task, assingedTo, projectId, userId) => async (dispatch) => {
+export const addTask = (task, assingedTo, projectId, userId) => async (dispatch) => {
     const taskData = {
       task,
       assingedTo,
@@ -116,18 +115,17 @@ export const addTask =
         taskData
       );
       if (response) {
-        //localStorage.setItem("task", JSON.stringify(response.data));
 
         dispatch(taskAddedSuccessfully(response.data));
         toast.success("task added successfully");
-        //window.location.reload();
+        
       } else {
         dispatch(taskAddFailure());
       }
     } catch (error) {
-      console.error(error); // Log errors for debugging
+      console.error(error); 
       dispatch(taskAddFailure());
-      toast.error("An error occurred adding the task"); // Handle network errors
+      toast.error("An error occurred adding the task"); 
     }
   };
 

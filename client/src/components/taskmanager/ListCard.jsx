@@ -1,28 +1,26 @@
-import { BiChevronLeft, BiChevronRight, BiTrash } from 'react-icons/bi';
-import { arrowClick, deleteItem } from '../../redux/taskSlice';
-import { useDispatch } from 'react-redux';
+// import { BiChevronLeft, BiChevronRight, BiTrash } from 'react-icons/bi';
+// import { arrowClick, deleteItem } from '../../redux/taskSlice';
+// import { useDispatch } from 'react-redux';
 
 const ListCard = (items) => {
-	const { item, projId, index, onValueChange } = items;
-	//const { projId } = projectId
+	//const { item, projId, index, onValueChange } = items;
+	const { item } = items;
 
-	const dispatch = useDispatch();
-	console.log('projId', projId);
+	//const dispatch = useDispatch();
+	console.log('projId', items);
 	
-	const ArrowClick = (string) => {
-		dispatch(arrowClick(item, projId, index, string));
-		onValueChange('valueChanged');
-	};
-	const handleDelete = () => {
-		dispatch(deleteItem(item._id));
-	};
+	// const ArrowClick = (string) => {
+	// 	dispatch(arrowClick(item, projId, index, string));
+	// 	onValueChange('valueChanged');
+	// };
+	// const handleDelete = () => {
+	// 	dispatch(deleteItem(item._id));
+	// };
 
 	return (
 		<tr className={`bg-white hover:bg-gray-100 ${item.status === 'done' ? 'text-green-500' : ''
 			}`}>
-			{/* <td className="py-4 px-6 text-left font-medium whitespace-nowrap">
-				{item._id}
-			</td> */}
+			
 			<td className="py-4 px-6 text-left">
 				{item.task}
 			</td>
@@ -32,7 +30,7 @@ const ListCard = (items) => {
 			<td className="py-4 px-6 text-left">
 				{item.status}
 			</td>
-			<td className="py-4 px-6 text-center">
+			{/* <td className="py-4 px-6 text-center">
 				<button
 					type="button"
 					disabled={item.status === 'backlog'}
@@ -55,7 +53,7 @@ const ListCard = (items) => {
 				>
 					<BiTrash />
 				</button>
-			</td>
+			</td> */}
 		</tr>
 	);
 };
