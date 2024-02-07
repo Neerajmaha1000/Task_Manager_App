@@ -8,7 +8,7 @@ const addProject = async (req, res) => {
     if (!name) return res.status(400).send("Please enter the project name");
 
     const project = await new Task({ name });
-    await project.save();
+    await project.save();                           //Saves the Project to the database
     return res.status(200).send(project);
   } catch (error) {
     return res.status(400).send("Project creation failed");

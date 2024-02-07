@@ -3,10 +3,10 @@ const router = express.Router();
 
 const taskController = require('../controllers/taskController');
 
-router.route('/projects/add').post(taskController.addProject);
+router.route('/projects/add').post(taskController.addProject); 
 router.route('/projects').get(taskController.getAllProjects);
 
-router.route('/tasks').post(taskController.addTask);
+router.route('/tasks').post(taskController.addTask);								// Add a new task to the database (POST request is made to /tasks)
 router.route('/tasks/:projectId').get(taskController.getAllTasks);
 router.route('/tasks/:projectId/:taskId').put(taskController.editTask);
 router.route('/tasks/:projectId/:taskId/status').put(taskController.statusChange);

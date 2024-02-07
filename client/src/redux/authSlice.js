@@ -53,13 +53,13 @@ export const register = (user) => async (dispatch) => {
 				'content-type': 'application/json',
 			},
 		};
-
+// (user)   ({username, password, email})
 		const response = await axios.post(
 			'http://localhost:4000/auth/register',
 			user,
 			config
 		);
-
+		console.log('response', response);
 		if (response) {
 			dispatch(registerSuccess(response.data));
 			toast.success('register successfull');

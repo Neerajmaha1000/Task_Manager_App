@@ -75,19 +75,21 @@ export const {
 
 export default taskSlice.reducer;
 
-// actions for projects
+// actions for projects (Async Thunk Actions)
+// ... API request to add a project ...
 export const addProject = (name) => async (dispatch) => {
   const response = await axios.post("http://localhost:4000/task/projects/add", {
     name,
   });
   if (response) {
     dispatch(addProjectSuccess(response.data));
-    window.location.reload();
+    window.location.reload(); 
     toast.success("Project added successfully");
   } else {
     dispatch(projectsAddFailure());
   }
 };
+
 
 export const getProjects = () => async (dispatch) => {
   try {
@@ -129,6 +131,7 @@ export const addTask = (task, assingedTo, projectId, userId) => async (dispatch)
     }
   };
 
+// ... API request to fetch all tasks ...
 export const getAllTasks = (token, id, projID) => async (dispatch) => {
   const config = {
     headers: {
@@ -173,7 +176,7 @@ export const arrowClick = (item, projId, taskindex, string) => async () => {
     );
 
     if (response) {
-      //window.location.reload();
+      // window.location.reload();
       console.log("res", response);
     }
   } catch (error) {

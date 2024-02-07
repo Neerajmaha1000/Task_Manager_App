@@ -18,7 +18,7 @@ const AddProject = () => {
 	};
 
 	const handleSubmit = (e) => {
-		e.preventDefault();
+		e.preventDefault();  
 		dispatch(addProject(state.project, currentUser.id));
 		setState({
 			project: '',

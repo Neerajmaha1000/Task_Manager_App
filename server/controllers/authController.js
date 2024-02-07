@@ -32,7 +32,7 @@ const signin = async (req, res) => {
 };
 
 const register = async (req, res) => {
-	console.log(req.body, 'req');
+	console.log('req', req );
 	const { username, password, email } = req.body;
 	try {
 		if (!username) return res.status(400).send('username is required');

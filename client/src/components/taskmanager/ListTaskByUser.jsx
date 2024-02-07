@@ -72,7 +72,7 @@ const ListTaskByUser = () => {
                         <th className="py-3 px-6 text-left">Task Name</th>
                         <th className="py-3 px-6 text-left">Assinged to</th>
                         <th className="py-3 px-6 text-left">Status</th>
-                        {/* <th className="py-3 px-6 text-center">Action</th> */}
+                        <th className="py-3 px-6 text-center">Action</th>
                     </tr>
                 </thead>
                 {filteredTasks ? (

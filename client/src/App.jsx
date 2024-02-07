@@ -17,7 +17,6 @@ function App() {
 	const { auth } = useSelector((state) => ({ ...state }));
 	return (
 		<div>
-			{/* <ToastContainer /> */}
 			<Router>
 				<Header />
 				<Routes>
